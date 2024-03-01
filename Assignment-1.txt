@@ -1,0 +1,74 @@
+#include <iostream>
+ 
+#define MAX 5
+ 
+using std::cout;
+using std::endl;
+ 
+class Stack {
+ 
+int top;
+int arr[MAX];
+ 
+public:
+Stack() {
+top = -1;
+}
+ 
+void push(int data) {
+ 
+if(top == MAX - 1) {
+cout << "Stack is full" << endl;
+return;
+}
+ 
+top++;
+arr[top] = data;
+ 
+}
+ 
+void pop() {
+ 
+if(top == -1) {
+cout << "Stack is empty" << endl;
+return;
+}
+ 
+top--;
+ 
+}
+ 
+void traverse() {
+ 
+if (top == -1) {
+cout << "Stack is empty" << endl;
+return;
+}
+ 
+for(int i = top; i >= 0; i--) {
+cout << arr[i] << " ";
+}
+cout << endl;
+ 
+ 
+}
+ 
+};
+ 
+int main() {
+ 
+Stack s;
+ 
+s.push(1);
+s.push(2);
+s.push(3);
+s.push(4);
+s.traverse();
+ 
+s.pop();
+s.pop();
+ 
+s.traverse();
+ 
+}
+ 

@@ -1,0 +1,80 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for circular linked list
+struct Node {
+    int data;
+    Node* next;
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+class CircularLinkedList {
+private:
+    Node* head;
+
+public:
+    CircularLinkedList() : head(nullptr) {}
+
+    // Function to insert a node at the beginning of the list
+    void insertAtBeginning(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            newNode->next = newNode; // Point to itself in circular list
+            head = newNode;
+        } else {
+            Node* last = head;
+            while (last->next != head) {
+                last = last->next;
+            }
+            last->next = newNode;
+            newNode->next = head;
+            head = newNode;
+        }
+    }
+
+    // Function to append a node at the end of the list
+    void append(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            newNode->next = newNode; // Point to itself in circular list
+            head = newNode;
+        } else {
+            Node* last = head;
+            while (last->next != head) {
+                last = last->next;
+            }
+            last->next = newNode;
+            newNode->next = head;
+        }
+    }
+
+    // Function to display the circular linked list
+    void display() {
+        if (head == nullptr) {
+            cout << "Circular linked list is empty" << endl;
+            return;
+        }
+        Node* current = head;
+        do {
+            cout << current->data << " ";
+            current = current->next;
+        } while (current != head);
+        cout << endl;
+    }
+};
+
+int main() {
+    CircularLinkedList cList;
+
+    // Inserting elements into circular linked list
+    cList.insertAtBeginning(10);
+    cList.append(20);
+    cList.append(30);
+    cList.insertAtBeginning(5);
+
+    // Displaying the circular linked list
+    cout << "Circular linked list: ";
+    cList.display();
+
+    return 0;
+}

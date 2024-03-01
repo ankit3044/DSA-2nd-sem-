@@ -1,0 +1,284 @@
+#include <iostream>
+using namespace std;
+
+// Node structure for linear linked list
+struct Node {
+    int data;
+    Node* next;
+    Node(int value) : data(value), next(nullptr) {}
+};
+
+// Node structure for double linked list
+struct DNode {
+    int data;
+    DNode* prev;
+    DNode* next;
+    DNode(int value) : data(value), prev(nullptr), next(nullptr) {}
+};
+
+// Class for linear linked list operations
+class LinkedList {
+private:
+    Node* head;
+
+public:
+    LinkedList() : head(nullptr) {}
+
+    // Function to insert a node at the beginning of the list
+    void insertAtBeginning(int value) {
+        Node* newNode = new Node(value);
+        newNode->next = head;
+        head = newNode;
+    }
+
+    // Function to delete a node at the end of the list
+    void deleteAtEnd() {
+        if (head == nullptr) {
+            cout << "List is empty. Deletion failed." << endl;
+            return;
+        }
+        if (head->next == nullptr) {
+            delete head;
+            head = nullptr;
+            return;
+        }
+        Node* current = head;
+        while (current->next->next != nullptr) {
+            current = current->next;
+        }
+        delete current->next;
+        current->next = nullptr;
+    }
+
+    // Function to append a node at the end of the list
+    void append(int value) {
+        Node* newNode = new Node(value);
+        if (head == nullptr) {
+            head = newNode;
+            return;
+        }
+        Node* current = head;
+        while (current->next != nullptr) {
+            current = current->next;
+        }
+        current->next = newNode;
+    }
+
+    // Function to insert a node at any middle position of the list
+    void insertAtMiddle(int position, int value) {
+        Node* newNode = new Node(value);
+        if (position == 0) {
+            newNode->next = head;
+            head = newNode;
+            return;
+        }
+        Node* current = head;
+        for (int i = 0; i < position - 1 && current != nullptr; ++i) {
+            current = current->next;
+        }
+        if (current == nullptr) {
+            cout << "Invalid position. Insertion failed." << endl;
+            return;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+
+    // Function to delete a node from any middle position of the list
+    void deleteAtMiddle(int position) {
+        if (position == 0) {
+            Node* temp = head;
+            head = head->next;
+            delete temp;
+            return;
+        }
+        Node* current = head;
+        Node* prev = nullptr;
+        for (int i = 0; i < position && current != nullptr; ++i) {
+            prev = current;
+            current = current->next;
+        }
+        if (current == nullptr) {
+            cout << "Invalid position. Deletion failed." << endl;
+            return;
+        }
+        prev->next = current->next;
+        delete current;
+    }
+
+    // Function to count number of nodes present in the list
+    int countNodes() {
+        int count = 0;
+        Node* current = head;
+        while (current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+
+    // Function to find the sum of all nodes in the list
+    int sumOfNodes() {
+        int sum = 0;
+        Node* current = head;
+        while (current != nullptr) {
+            sum += current->data;
+            current = current->next;
+        }
+        return sum;
+    }
+};
+
+// Class for double linked list operations
+class DoubleLinkedList {
+private:
+    DNode* head;
+    DNode* tail;
+
+public:
+    DoubleLinkedList() : head(nullptr), tail(nullptr) {}
+
+    // Function to insert a node at the beginning of the list
+    void insertAtBeginning(int value) {
+        DNode* newNode = new DNode(value);
+        if (head == nullptr) {
+            head = tail = newNode;
+        } else {
+            newNode->next = head;
+            head->prev = newNode;
+            head = newNode;
+        }
+    }
+
+    // Function to delete a node at the end of the list
+    void deleteAtEnd() {
+        if (head == nullptr) {
+            cout << "List is empty. Deletion failed." << endl;
+            return;
+        }
+        if (head == tail) {
+            delete head;
+            head = tail = nullptr;
+            return;
+        }
+        DNode* temp = tail;
+        tail = tail->prev;
+        tail->next = nullptr;
+        delete temp;
+    }
+
+    // Function to append a node at the end of the list
+    void append(int value) {
+        DNode* newNode = new DNode(value);
+        if (head == nullptr) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            newNode->prev = tail;
+            tail = newNode;
+        }
+    }
+
+    // Function to insert a node at any middle position of the list
+    void insertAtMiddle(int position, int value) {
+        DNode* newNode = new DNode(value);
+        if (position == 0) {
+            insertAtBeginning(value);
+            return;
+        }
+        DNode* current = head;
+        for (int i = 0; i < position - 1 && current != nullptr; ++i) {
+            current = current->next;
+        }
+        if (current == nullptr) {
+            cout << "Invalid position. Insertion failed." << endl;
+            return;
+        }
+        newNode->next = current->next;
+        newNode->prev = current;
+        if (current->next != nullptr) {
+            current->next->prev = newNode;
+        }
+        current->next = newNode;
+    }
+
+    // Function to delete a node from any middle position of the list
+    void deleteAtMiddle(int position) {
+        if (position == 0) {
+            if (head == nullptr) {
+                cout << "List is empty. Deletion failed." << endl;
+                return;
+            }
+            if (head == tail) {
+                delete head;
+                head = tail = nullptr;
+                return;
+            }
+            DNode* temp = head;
+            head = head->next;
+            head->prev = nullptr;
+            delete temp;
+            return;
+        }
+        DNode* current = head;
+        for (int i = 0; i < position && current != nullptr; ++i) {
+            current = current->next;
+        }
+        if (current == nullptr) {
+            cout << "Invalid position. Deletion failed." << endl;
+            return;
+        }
+        current->prev->next = current->next;
+        if (current->next != nullptr) {
+            current->next->prev = current->prev;
+        }
+        delete current;
+    }
+
+    // Function to count number of nodes present in the list
+    int countNodes() {
+        int count = 0;
+        DNode* current = head;
+        while (current != nullptr) {
+            count++;
+            current = current->next;
+        }
+        return count;
+    }
+
+    // Function to find the sum of all nodes in the list
+    int sumOfNodes() {
+        int sum = 0;
+        DNode* current = head;
+        while (current != nullptr) {
+            sum += current->data;
+            current = current->next;
+        }
+        return sum;
+    }
+};
+
+int main() {
+    LinkedList lList;
+    DoubleLinkedList dList;
+
+    // Operations on linear linked list
+    lList.insertAtBeginning(10);
+    lList.insertAtBeginning(20);
+    lList.append(30);
+    lList.insertAtMiddle(2, 25);
+    lList.deleteAtMiddle(1);
+    cout << "Number of nodes in linear linked list: " << lList.countNodes() << endl;
+    cout << "Sum of nodes in linear linked list: " << lList.sumOfNodes() << endl;
+
+    // Operations on double linked list
+    dList.insertAtBeginning(10);
+    dList.insertAtBeginning(20);
+    dList.append(30);
+    dList.insertAtMiddle(2, 25);
+    dList.deleteAtMiddle(1);
+    cout << "Number of nodes in double linked list: " << dList.countNodes() << endl;
+    cout << "Sum of nodes in double linked list: " << dList.sumOfNodes() << endl;
+
+    return 0;
+}

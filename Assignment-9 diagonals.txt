@@ -1,0 +1,38 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100
+
+int main() {
+    int matrix[MAX_SIZE][MAX_SIZE];
+    int m, n;
+
+    // Input the size of the square matrix
+    printf("Enter the size of the square matrix (m x n): ");
+    scanf("%d %d", &m, &n);
+
+    if (m != n) {
+        printf("Error: Input matrix is not square.\n");
+        return 1;
+    }
+
+    // Input the elements of the matrix
+    printf("Enter the elements of the matrix:\n");
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            scanf("%d", &matrix[i][j]);
+        }
+    }
+
+    // Calculate the sum of the two diagonals
+    int sumMainDiagonal = 0, sumSecondaryDiagonal = 0;
+    for (int i = 0; i < m; ++i) {
+        sumMainDiagonal += matrix[i][i]; // Elements of the main diagonal have equal row and column indices
+        sumSecondaryDiagonal += matrix[i][n - i - 1]; // Elements of the secondary diagonal have row index i and column index n - i - 1
+    }
+
+    // Output the sums of the diagonals
+    printf("Sum of the main diagonal: %d\n", sumMainDiagonal);
+    printf("Sum of the secondary diagonal: %d\n", sumSecondaryDiagonal);
+
+    return 0;
+}

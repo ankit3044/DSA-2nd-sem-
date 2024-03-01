@@ -1,0 +1,112 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// Function to convert single-digit number to word
+string digitToWord(int digit) {
+    switch (digit) {
+        case 0: return "Zero";
+        case 1: return "One";
+        case 2: return "Two";
+        case 3: return "Three";
+        case 4: return "Four";
+        case 5: return "Five";
+        case 6: return "Six";
+        case 7: return "Seven";
+        case 8: return "Eight";
+        case 9: return "Nine";
+        default: return "";
+    }
+}
+
+// Function to convert two-digit number to word
+string twoDigitToWord(int num) {
+    if (num < 10) {
+        return digitToWord(num);
+    } else if (num < 20) {
+        switch (num) {
+            case 10: return "Ten";
+            case 11: return "Eleven";
+            case 12: return "Twelve";
+            case 13: return "Thirteen";
+            case 14: return "Fourteen";
+            case 15: return "Fifteen";
+            case 16: return "Sixteen";
+            case 17: return "Seventeen";
+            case 18: return "Eighteen";
+            case 19: return "Nineteen";
+            default: return "";
+        }
+    } else {
+        int tens = num / 10;
+        int ones = num % 10;
+        string result = "";
+        switch (tens) {
+            case 2: result += "Twenty"; break;
+            case 3: result += "Thirty"; break;
+            case 4: result += "Forty"; break;
+            case 5: result += "Fifty"; break;
+            case 6: result += "Sixty"; break;
+            case 7: result += "Seventy"; break;
+            case 8: result += "Eighty"; break;
+            case 9: result += "Ninety"; break;
+        }
+        if (ones != 0) {
+            result += " " + digitToWord(ones);
+        }
+        return result;
+    }
+}
+
+// Function to convert three-digit number to word
+string threeDigitToWord(int num) {
+    int hundreds = num / 100;
+    int remainder = num % 100;
+    string result = "";
+    if (hundreds != 0) {
+        result += digitToWord(hundreds) + " Hundred";
+    }
+    if (remainder != 0) {
+        if (hundreds != 0) {
+            result += " ";
+        }
+        result += twoDigitToWord(remainder);
+    }
+    return result;
+}
+
+// Function to convert amount to word
+string amountToWords(int amount) {
+    if (amount == 0) {
+        return "Zero";
+    }
+    string words = "";
+    int crore = amount / 10000000;
+    int lakh = (amount % 10000000) / 100000;
+    int thousand = (amount % 100000) / 1000;
+    int hundred = amount % 1000;
+    
+    if (crore != 0) {
+        words += threeDigitToWord(crore) + " Crore ";
+    }
+    if (lakh != 0) {
+        words += threeDigitToWord(lakh) + " Lakh ";
+    }
+    if (thousand != 0) {
+        words += threeDigitToWord(thousand) + " Thousand ";
+    }
+    if (hundred != 0) {
+        words += threeDigitToWord(hundred);
+    }
+    return words;
+}
+
+int main() {
+    int amount;
+    cout << "Enter the amount in figures: ";
+    cin >> amount;
+    
+    cout << "Amount in words: " << amountToWords(amount) << endl;
+
+    return 0;
+}

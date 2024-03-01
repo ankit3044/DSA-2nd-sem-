@@ -1,0 +1,54 @@
+#include <iostream>
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+void findSaddlePoint(int matrix[MAX_SIZE][MAX_SIZE], int m, int n) {
+    bool found = false;
+    for (int i = 0; i < m; ++i) {
+        int saddleValue = matrix[i][0];
+        int saddleColumn = 0;
+        // Find the smallest element in the row
+        for (int j = 1; j < n; ++j) {
+            if (matrix[i][j] < saddleValue) {
+                saddleValue = matrix[i][j];
+                saddleColumn = j;
+            }
+        }
+        // Check if the smallest element is also the largest in its column
+        bool isSaddlePoint = true;
+        for (int k = 0; k < m; ++k) {
+            if (matrix[k][saddleColumn] > saddleValue) {
+                isSaddlePoint = false;
+                break;
+            }
+        }
+        // If saddle point is found, print its location and value
+        if (isSaddlePoint) {
+            cout << "Saddle point found at position (" << i << ", " << saddleColumn << "): " << saddleValue << endl;
+            found = true;
+        }
+    }
+    if (!found) {
+        cout << "No saddle point found in the matrix." << endl;
+    }
+}
+
+int main() {
+    int m, n;
+    cout << "Enter number of rows and columns of matrix: ";
+    cin >> m >> n;
+
+    int matrix[MAX_SIZE][MAX_SIZE];
+
+    cout << "Enter elements of matrix: " << endl;
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    findSaddlePoint(matrix, m, n);
+
+    return 0;
+}

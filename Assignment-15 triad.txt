@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+// Function to check if a number is a perfect square
+bool isPerfectSquare(int n) {
+    int root = sqrt(n);
+    return root * root == n;
+}
+
+// Function to check if a given number is a triad
+bool isTriad(int n) {
+    // Check all possible combinations of three integers (a, b, c)
+    for (int a = 1; a * a <= n; ++a) {
+        for (int b = a; a * a + b * b <= n; ++b) {
+            int cSquared = n - a * a - b * b;
+            if (isPerfectSquare(cSquared)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+int main() {
+    int num;
+    cout << "Enter a number to check if it is a triad: ";
+    cin >> num;
+
+    if (isTriad(num)) {
+        cout << num << " is a triad." << endl;
+    } else {
+        cout << num << " is not a triad." << endl;
+    }
+
+    return 0;
+}
