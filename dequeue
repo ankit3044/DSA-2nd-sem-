@@ -1,0 +1,113 @@
+#include <iostream>
+using namespace std;
+
+#define MAX_SIZE 10
+
+class Deque {
+private:
+    int deque[MAX_SIZE];
+    int front, rear;
+
+public:
+    Deque() {
+        front = -1;
+        rear = -1;
+    }
+
+    bool isEmpty() {
+        return (front == -1 && rear == -1);
+    }
+
+    bool isFull() {
+        return ((rear + 1) % MAX_SIZE == front);
+    }
+
+    void insertFront(int val) {
+        if (isFull()) {
+            cout << "Deque is full. Cannot insert.\n";
+            return;
+        }
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            front = (front + MAX_SIZE - 1) % MAX_SIZE;
+        }
+        deque[front] = val;
+        cout << "Inserted " << val << " at the front.\n";
+    }
+
+    void insertRear(int val) {
+        if (isFull()) {
+            cout << "Deque is full. Cannot insert.\n";
+            return;
+        }
+        if (isEmpty()) {
+            front = rear = 0;
+        } else {
+            rear = (rear + 1) % MAX_SIZE;
+        }
+        deque[rear] = val;
+        cout << "Inserted " << val << " at the rear.\n";
+    }
+
+    void deleteFront() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete.\n";
+            return;
+        }
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            front = (front + 1) % MAX_SIZE;
+        }
+        cout << "Deleted front element.\n";
+    }
+
+    void deleteRear() {
+        if (isEmpty()) {
+            cout << "Deque is empty. Cannot delete.\n";
+            return;
+        }
+        if (front == rear) {
+            front = rear = -1;
+        } else {
+            rear = (rear + MAX_SIZE - 1) % MAX_SIZE;
+        }
+        cout << "Deleted rear element.\n";
+    }
+
+    int getFront() {
+        if (isEmpty()) {
+            cout << "Deque is empty. No front element.\n";
+            return -1;
+        }
+        return deque[front];
+    }
+
+    int getRear() {
+        if (isEmpty()) {
+            cout << "Deque is empty. No rear element.\n";
+            return -1;
+        }
+        return deque[rear];
+    }
+};
+
+int main() {
+    Deque dq;
+
+    dq.insertFront(5);
+    dq.insertFront(10);
+    dq.insertRear(20);
+
+    cout << "Front element: " << dq.getFront() << endl;
+    cout << "Rear element: " << dq.getRear() << endl;
+
+    dq.deleteFront();
+    dq.deleteRear();
+
+    cout << "Front element: " << dq.getFront() << endl;
+    cout << "Rear element: " << dq.getRear() << endl;
+
+    return 0;
+}
