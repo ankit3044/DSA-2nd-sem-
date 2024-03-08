@@ -78,7 +78,7 @@ class Priority_Queue
                 cout<<"Priority       Item\n";
                 while(ptr != NULL)
                 {
-                    cout<<ptr->priority<<"                 "<<ptr->info<<endl;
+                    cout<<ptr->priority<<""<<ptr->info<<endl;
                     ptr = ptr->link;
                 }
             }
