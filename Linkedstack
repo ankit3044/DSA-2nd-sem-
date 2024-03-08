@@ -1,0 +1,96 @@
+#include <iostream>
+using namespace std;
+
+// Node structure
+struct Node {
+    int data;
+    Node* next;
+};
+
+// Linked Stack class
+class LinkedStack {
+private:
+    Node* top;
+
+public:
+    LinkedStack() {
+        top = nullptr;
+    }
+
+    // Function to push element onto the stack
+    void push(int value) {
+        Node* newNode = new Node;
+        newNode->data = value;
+        newNode->next = top;
+        top = newNode;
+        cout << "Element " << value << " pushed onto the stack." << endl;
+    }
+
+    // Function to pop element from the stack
+    void pop() {
+        if (isEmpty()) {
+            cout << "Stack underflow! Unable to pop from empty stack." << endl;
+            return;
+        }
+        Node* temp = top;
+        top = top->next;
+        cout << "Element " << temp->data << " popped from the stack." << endl;
+        delete temp;
+    }
+
+    // Function to check if the stack is empty
+    bool isEmpty() {
+        return top == nullptr;
+    }
+
+    // Function to display the elements of the stack
+    void display() {
+        if (isEmpty()) {
+            cout << "Stack is empty." << endl;
+            return;
+        }
+        Node* temp = top;
+        cout << "Stack elements: ";
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+        cout << endl;
+    }
+};
+
+int main() {
+    LinkedStack stack;
+    int choice, value;
+
+    do {
+        cout << "\nLinked Stack Operations:" << endl;
+        cout << "1. Push Element" << endl;
+        cout << "2. Pop Element" << endl;
+        cout << "3. Display Stack" << endl;
+        cout << "4. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "Enter value to push: ";
+                cin >> value;
+                stack.push(value);
+                break;
+            case 2:
+                stack.pop();
+                break;
+            case 3:
+                stack.display();
+                break;
+            case 4:
+                cout << "Exiting..." << endl;
+                break;
+            default:
+                cout << "Invalid choice! Please try again." << endl;
+        }
+    } while (choice != 4);
+
+    return 0;
+}
